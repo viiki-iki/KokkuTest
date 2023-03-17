@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vitoria.fiorin\\source\\repos\\AutoBattle\\AutoBattle\\AutoBattle.csproj",
+      "projectUniqueName": "C:\\Users\\vitoria.fiorin\\Documents\\KokkuTest\\AutoBattle\\AutoBattle\\AutoBattle.csproj",
       "projectName": "AutoBattle",
-      "projectPath": "C:\\Users\\vitoria.fiorin\\source\\repos\\AutoBattle\\AutoBattle\\AutoBattle.csproj",
+      "projectPath": "C:\\Users\\vitoria.fiorin\\Documents\\KokkuTest\\AutoBattle\\AutoBattle\\AutoBattle.csproj",
       "packagesPath": "C:\\Users\\vitoria.fiorin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vitoria.fiorin\\source\\repos\\AutoBattle\\AutoBattle\\obj\\",
+      "outputPath": "C:\\Users\\vitoria.fiorin\\Documents\\KokkuTest\\AutoBattle\\AutoBattle\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

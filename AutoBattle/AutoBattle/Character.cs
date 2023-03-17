@@ -12,9 +12,10 @@ namespace AutoBattle
         public int Health;
         public int BaseDamage;
         public CharacterClass _class;
-
+        int classIndex; 
         public float DamageMultiplier { get; set; }
         public GridBox currentBox;
+        SpecialSkill classSkill;
         public int PlayerIndex;
         public Character Target { get; set; } 
 
@@ -35,30 +36,25 @@ namespace AutoBattle
             return false;
         }
 
+        public int HPModifier()
+        {
+            int hpModifier = classSkill.hpModifier;
+            return hpModifier;
+        }
+
         public void Die()
         {
             //TODO >> maybe kill him?
         }
 
-        public void WalkTO(bool CanWalk)
+        public void WalkTO(Grid battlefield, bool canWalk) // calculates in wich direction this character should move to be closer to a possible target
         {
-
-        }
-
-        public void StartTurn(Grid battlefield)
-        {          
-            if (CheckCloseTargets(battlefield)) 
+            if (canWalk)
             {
-                Attack(Target);
-                
-                return;
-            }
-            else
-            {   // if there is no target close enough, calculates in wich direction this character should move to be closer to a possible target              
                 if (battlefield.grids.Exists(x => x.Index == currentBox.Index - 1))
                 {
                     CurrentBoxStatus(battlefield, false);
-                  
+
                     if (currentBox.xIndex - Target.currentBox.xIndex == 0)
                     {
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------");
@@ -69,7 +65,6 @@ namespace AutoBattle
                             battlefield.UpdateBattlefield();
 
                             Console.WriteLine($"{Name} walked left      Current Y box: {currentBox.yIndex}\n");
-                            // return;
                         }
                         else if (currentBox.yIndex < Target.currentBox.yIndex)
                         {
@@ -78,10 +73,9 @@ namespace AutoBattle
                             battlefield.UpdateBattlefield();
 
                             Console.WriteLine($"{Name} walked right      Current Y box: {currentBox.yIndex}\n");
-                             // return;
                         }
                         return;
-                    } 
+                    }
                     else if (currentBox.yIndex - Target.currentBox.yIndex == 0)
                     {
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------");
@@ -92,7 +86,6 @@ namespace AutoBattle
                             battlefield.UpdateBattlefield();
 
                             Console.WriteLine($"{Name} walked up      Current X box: {currentBox.xIndex}\n");
-                           // return;
                         }
                         else if (currentBox.xIndex < Target.currentBox.xIndex)
                         {
@@ -101,7 +94,6 @@ namespace AutoBattle
                             battlefield.UpdateBattlefield();
 
                             Console.WriteLine($"{Name} walked down      Current X box: {currentBox.xIndex}\n");
-                           //  return;
                         }
                         return;
                     }
@@ -116,7 +108,7 @@ namespace AutoBattle
                             battlefield.UpdateBattlefield();
 
                             Console.WriteLine($"{Name} walked up      x: {currentBox.xIndex}      y: {currentBox.yIndex} \n");
-                             return;
+                            return;
                         }
                         else if (currentBox.xIndex < Target.currentBox.xIndex)
                         {
@@ -128,13 +120,38 @@ namespace AutoBattle
                             Console.WriteLine($"{Name} walked down      x: {currentBox.xIndex}      y: {currentBox.yIndex} \n");
                             return;
                         }
-                    }                                  
-                }             
+                    }
+                }
             }
         }
+    
+        public void StartTurn(Grid battlefield)
+        {
+            classSkill.status = false;
+            if (CheckCloseTargets(battlefield))
+            {
+                Attack();
+                return;
+            }
+            else
+            {
+                if (classIndex == 4) // archer // 2 chance to attack / 1 chance to walk
+                {
+                    int arrowChance = GetRandomInt(1, 3);
+                    if (arrowChance == 1)
+                        WalkTO(battlefield, true);
+                    else
+                    {
+                        SpecialSkill();
+                        return;
+                    }
+                }              
+                else
+                    WalkTO(battlefield, true);                                  
+            }                           
+        }
 
-       //  Check in x and y directions if there is any character close enough to be a target.
-        bool CheckCloseTargets(Grid battlefield)
+        bool CheckCloseTargets(Grid battlefield) // Check in x and y directions if there is any character close enough to be a target.
         {
             bool left = (battlefield.grids.Find(x => x.Index == currentBox.Index - 1).ocupied);
             bool right = (battlefield.grids.Find(x => x.Index == currentBox.Index + 1).ocupied);
@@ -143,7 +160,6 @@ namespace AutoBattle
         
             if (left || right || up || down) 
             {
-                Console.WriteLine("ATTACK!");
                 return true;
             }
             return false; 
@@ -159,21 +175,70 @@ namespace AutoBattle
         public string CurrentCharacter(GridBox box)
         {
             if(PlayerIndex == 0)
-            {
                 box.character = "^~^";
-            }else if (PlayerIndex == 1)
-            {
+            else if (PlayerIndex == 1)
                 box.character = "ò.ó";
-            }
+
             string character = box.character;
             return character;
         }
-        
-        public void Attack (Character target)
+
+        public void CheckClass()
+        {
+            classIndex = (int)_class;         
+            classSkill = new SpecialSkill(classIndex, "", 0, false);
+        }
+
+        public void Attack ()
+        {
+            if (Target.classIndex == 3 && Target.classSkill.status == true)
+            {
+                Console.WriteLine($"{Name} can't attack because {Target.Name} is invisible! \n");
+                return;
+            }
+            else
+            {
+                int chance = GetRandomInt(1, 4);
+                if (chance == 1)
+                    SpecialSkill();
+                else if (chance == 2)
+                    Console.WriteLine($"{Name} lost the chance to attack {Target.Name}! \n");
+                else if (chance >= 3)
+                {
+                    Target.Health -= BaseDamage;
+                    Console.WriteLine($"{Name} is attacking {Target.Name} and did {BaseDamage} damage! \n");
+                }
+                Console.WriteLine($"{Name} health is {Health}      {Target.Name} health is {Target.Health} \n");
+            }          
+        }
+
+        public void SpecialSkill()
+        {
+            Console.WriteLine($"{Name} is using the special skill {classSkill.name}! \n");
+            int damage = BaseDamage + HPModifier();
+
+            if (classIndex == 1)
+            {
+                Health += HPModifier();
+                Console.WriteLine($"The skill gave {HPModifier()} of protection! \n");
+            }
+            else if (classIndex == 2 || classIndex == 4)
+            {
+                Target.Health -= damage;
+                Console.WriteLine($"The skill did {damage} damage! \n");             
+            }
+            else if (classIndex == 3)
+            {
+                classSkill.status = true;
+                Console.WriteLine($"{Name} is invisible for 1 turn! \n");               
+            }                     
+        }
+
+        public int GetRandomInt(int min, int max)
         {
             var rand = new Random();
-            target.TakeDamage(rand.Next(0, BaseDamage));
-            Console.WriteLine($"{Name} is attacking the player {Target.Name} and did {BaseDamage} damage\n");
+            int index = rand.Next(min, max);
+            return index;
         }
     }
 }

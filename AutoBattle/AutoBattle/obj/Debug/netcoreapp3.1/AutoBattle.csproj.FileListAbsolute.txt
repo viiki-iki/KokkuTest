@@ -25,3 +25,17 @@ C:\Users\vitoria.fiorin\source\repos\AutoBattle\AutoBattle\bin\Debug\netcoreapp3
 C:\Users\vitoria.fiorin\source\repos\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.dll
 C:\Users\vitoria.fiorin\source\repos\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.pdb
 C:\Users\vitoria.fiorin\source\repos\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.genruntimeconfig.cache
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.exe
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.deps.json
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.runtimeconfig.json
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.runtimeconfig.dev.json
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.dll
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\bin\Debug\netcoreapp3.1\AutoBattle.pdb
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.csproj.AssemblyReference.cache
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.AssemblyInfoInputs.cache
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.AssemblyInfo.cs
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.csproj.CoreCompileInputs.cache
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.dll
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.pdb
+C:\Users\vitoria.fiorin\Documents\KokkuTest\AutoBattle\AutoBattle\obj\Debug\netcoreapp3.1\AutoBattle.genruntimeconfig.cache

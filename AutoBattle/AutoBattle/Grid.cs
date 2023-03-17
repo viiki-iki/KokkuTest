@@ -27,15 +27,13 @@ namespace AutoBattle
                 for(int j = 0; j < Columns; j++)
                 {
                     initialBox = new GridBox(i, j, false, Columns * i + j, "");
-                   // Console.Write($"{initialBox.Index} \n");
                     grids.Add(initialBox);
                 }
             }
             numberOfPossibleTiles = grids.Count;
         }
 
-        // prints the matrix that indicates the tiles of the battlefield
-        public void UpdateBattlefield()
+        public void UpdateBattlefield() // prints the matrix that indicates the tiles of the battlefield
         {
             for (int i = 0; i < xLenght; i++)
             {

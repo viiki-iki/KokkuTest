@@ -6,15 +6,38 @@ namespace AutoBattle
 {
     public class Types
     {
+        public struct SpecialSkill
+        {
+            int type;
+            public string name;
+            public bool status;
+            public int hpModifier;
 
-       // public struct CharacterClassSpecific
-       // {
-       //     CharacterClass CharacterClass;
-       //     float hpModifier;
-       //     float ClassDamage;
-       //     CharacterSkills[] skills;
-       //
-       // }
+            public SpecialSkill(int typeClass, string skillName, int hp, bool skillStatus)
+            {
+                type = typeClass;
+                if(type == 1)
+                {
+                    skillName = "Light Shield";
+                    hp = 5;
+                }else if (type == 2)
+                {
+                    skillName = "Dual Attack";
+                    hp = 5;
+                }else if (type == 3)
+                {
+                    skillName = "Illusion Trick";
+                    hp = 0;
+                }else if (type == 4)
+                {
+                    skillName = "Sharp Arrow";
+                    hp = 5;
+                }
+                name = skillName;
+                hpModifier = hp;
+                status = skillStatus;
+            }
+        }       
 
         public struct GridBox
         {
@@ -32,21 +55,14 @@ namespace AutoBattle
                 Index = index;
                 character = nameCharacter;
             }
-        }
-
-       // public struct CharacterSkills
-       // {
-       //     string Name;
-       //     float damage;
-       //     float damageMultiplier;
-       // }
+        }   
 
         public enum CharacterClass : uint
         {
             Paladin = 1,
             Warrior = 2,
-            Cleric = 3,
+            Mage = 3,
             Archer = 4
-        }
+        }      
     }
 }

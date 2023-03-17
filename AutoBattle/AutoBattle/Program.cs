@@ -119,7 +119,6 @@ namespace AutoBattle
                 PlayerCharacter.PlayerIndex = 0;
                 PlayerCharacter.Name = name;
                 Console.WriteLine($"{name} Class Choice: {playerCharacterClass}");
-
                 CreateEnemyCharacter();
             }
 
@@ -131,7 +130,6 @@ namespace AutoBattle
                 EnemyCharacter.PlayerIndex = 1;
                 EnemyCharacter.Name = "Enemy";
                 Console.WriteLine($"Enemy Class Choice: {enemyClass}");
-
                 StartGame();
             }
 
@@ -141,61 +139,14 @@ namespace AutoBattle
                 PlayerCharacter.Target = EnemyCharacter;
                 AllPlayers.Add(PlayerCharacter);
                 AllPlayers.Add(EnemyCharacter);
-                AlocatePlayers();
+                foreach (Character character in AllPlayers)
+                {
+                    character.CheckClass();
+                }
+                AlocatePlayerCharacter();
                 StartTurn();
             }
-
-            void StartTurn(){
-
-                if (currentTurn == 0)
-                {
-                   // AllPlayers.Sort();  
-                }
-
-                foreach(Character character in AllPlayers)
-                {
-                    character.StartTurn(grid);
-                }
-
-                currentTurn++;
-                HandleTurn();
-            }
-
-            void HandleTurn()
-            {
-                if(PlayerCharacter.Health == 0)
-                {
-                    return;
-                } 
-                else if (EnemyCharacter.Health == 0)
-                {
-                    Console.Write(Environment.NewLine + Environment.NewLine);
-                    Console.Write("endgame?");
-                    Console.Write(Environment.NewLine + Environment.NewLine);            
-                    return;
-                } else
-                {
-                    Console.Write(Environment.NewLine + Environment.NewLine);
-                    Console.WriteLine("Click on any key to start the next turn...\n");
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    Console.Write(Environment.NewLine + Environment.NewLine);             
-                    
-                    StartTurn();
-                }
-            }
-
-            int GetRandomInt(int min, int max)
-            {
-                var rand = new Random();
-                int index = rand.Next(min, max);
-                return index;
-            }
-
-            void AlocatePlayers()
-            {
-                AlocatePlayerCharacter();
-            }
-
+                   
             void AlocatePlayerCharacter()
             {
                 random = GetRandomInt(0, grid.numberOfPossibleTiles);
@@ -210,7 +161,8 @@ namespace AutoBattle
                     Console.Write($"{name} Position: {random}\n");
                 
                     AlocateEnemyCharacter();
-                } else
+                } 
+                else
                 {
                     AlocatePlayerCharacter();
                 }
@@ -234,6 +186,51 @@ namespace AutoBattle
                 {
                     AlocateEnemyCharacter();
                 }              
+            }
+
+            void StartTurn()
+            {
+                if (currentTurn == 0)
+                {
+                    // AllPlayers.Sort();  
+                }
+                foreach (Character character in AllPlayers)
+                {
+                    character.StartTurn(grid);
+                }
+                currentTurn++;
+                HandleTurn();
+            }
+
+            void HandleTurn()
+            {
+                if (PlayerCharacter.Health <= 0)
+                {
+                    return;
+                }
+                else if (EnemyCharacter.Health <= 0)
+                {
+                    Console.Write(Environment.NewLine + Environment.NewLine);
+                    Console.Write("endgame?");
+                    Console.Write(Environment.NewLine + Environment.NewLine);
+                    return;
+                }
+                else
+                {
+                    Console.Write(Environment.NewLine + Environment.NewLine);
+                    Console.WriteLine("Click on any key to start the next turn...\n");
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    Console.Write(Environment.NewLine + Environment.NewLine);
+
+                    StartTurn();
+                }
+            }
+
+            int GetRandomInt(int min, int max)
+            {
+                var rand = new Random();
+                int index = rand.Next(min, max);
+                return index;
             }
         }
     }

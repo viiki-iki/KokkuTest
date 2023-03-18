@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using static AutoBattle.Types;
 
 namespace AutoBattle
@@ -16,6 +13,7 @@ namespace AutoBattle
         public float DamageMultiplier { get; set; }
         public GridBox currentBox;
         SpecialSkill classSkill;
+        Types types = new Types();
         public int PlayerIndex;
         public Character Target { get; set; } 
 
@@ -26,25 +24,10 @@ namespace AutoBattle
             _class = characterClass;
         }
 
-        public bool TakeDamage(int amount)
-        {
-            if((Health -= amount) <= 0)
-            {
-                Die();
-                return true;
-            }
-            return false;
-        }
-
         public int HPModifier()
         {
             int hpModifier = classSkill.hpModifier;
             return hpModifier;
-        }
-
-        public void Die()
-        {
-            //TODO >> maybe kill him?
         }
 
         public void WalkTO(Grid battlefield, bool canWalk) // calculates in wich direction this character should move to be closer to a possible target
@@ -137,7 +120,7 @@ namespace AutoBattle
             {
                 if (classIndex == 4) // archer // 2 chance to attack / 1 chance to walk
                 {
-                    int arrowChance = GetRandomInt(1, 3);
+                    int arrowChance = types.GetRandomInt(1, 3);
                     if (arrowChance == 1)
                         WalkTO(battlefield, true);
                     else
@@ -198,7 +181,7 @@ namespace AutoBattle
             }
             else
             {
-                int chance = GetRandomInt(1, 4);
+                int chance = types.GetRandomInt(1, 4);
                 if (chance == 1)
                     SpecialSkill();
                 else if (chance == 2)
@@ -222,7 +205,7 @@ namespace AutoBattle
                 Health += HPModifier();
                 Console.WriteLine($"The skill gave {HPModifier()} of protection! \n");
             }
-            else if (classIndex == 2 || classIndex == 4)
+            else if (classIndex == 2)
             {
                 Target.Health -= damage;
                 Console.WriteLine($"The skill did {damage} damage! \n");             
@@ -231,14 +214,12 @@ namespace AutoBattle
             {
                 classSkill.status = true;
                 Console.WriteLine($"{Name} is invisible for 1 turn! \n");               
-            }                     
-        }
-
-        public int GetRandomInt(int min, int max)
-        {
-            var rand = new Random();
-            int index = rand.Next(min, max);
-            return index;
-        }
+            }   
+            else if (classIndex == 4)
+            {
+                Target.Health -= HPModifier();
+                Console.WriteLine($"The skill did {HPModifier()} damage! \n");
+            }                  
+        }     
     }
 }

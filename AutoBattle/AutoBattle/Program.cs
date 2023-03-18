@@ -10,6 +10,7 @@ namespace AutoBattle
         static void Main(string[] args)
         {
             Grid grid;
+            Types types = new Types();
             CharacterClass playerCharacterClass;
             CharacterClass enemyClass;
 
@@ -124,7 +125,7 @@ namespace AutoBattle
 
             void CreateEnemyCharacter()
             {
-                int randomInteger = GetRandomInt(1, 4);
+                int randomInteger = types.GetRandomInt(1, 4);
                 enemyClass = (CharacterClass)randomInteger;
                 EnemyCharacter = new Character(enemyClass);
                 EnemyCharacter.PlayerIndex = 1;
@@ -149,7 +150,7 @@ namespace AutoBattle
                    
             void AlocatePlayerCharacter()
             {
-                random = GetRandomInt(0, grid.numberOfPossibleTiles);
+                random = types.GetRandomInt(0, grid.numberOfPossibleTiles);
                 RandomLocation = grid.grids.ElementAt(random);
                 if (!RandomLocation.ocupied)
                 {
@@ -170,7 +171,7 @@ namespace AutoBattle
 
             void AlocateEnemyCharacter()
             {
-                random = GetRandomInt(0, grid.numberOfPossibleTiles);
+                random = types.GetRandomInt(0, grid.numberOfPossibleTiles);
                 RandomLocation = grid.grids.ElementAt(random);
                 if (!RandomLocation.ocupied)
                 {
@@ -190,10 +191,6 @@ namespace AutoBattle
 
             void StartTurn()
             {
-                if (currentTurn == 0)
-                {
-                    // AllPlayers.Sort();  
-                }
                 foreach (Character character in AllPlayers)
                 {
                     character.StartTurn(grid);
@@ -204,34 +201,26 @@ namespace AutoBattle
 
             void HandleTurn()
             {
+                Console.Write(Environment.NewLine + Environment.NewLine);
                 if (PlayerCharacter.Health <= 0)
                 {
+                    Console.Write($"The Battle is over! {PlayerCharacter.Name} lost and {EnemyCharacter.Name} won! ");
                     return;
                 }
-                else if (EnemyCharacter.Health <= 0)
+                if (EnemyCharacter.Health <= 0 || PlayerCharacter.Health <= 0)
                 {
-                    Console.Write(Environment.NewLine + Environment.NewLine);
-                    Console.Write("endgame?");
-                    Console.Write(Environment.NewLine + Environment.NewLine);
+                    Console.Write($"The Battle is over! {PlayerCharacter.Name} won the game! ");
                     return;
                 }
                 else
-                {
-                    Console.Write(Environment.NewLine + Environment.NewLine);
+                {                   
                     Console.WriteLine("Click on any key to start the next turn...\n");
                     ConsoleKeyInfo key = Console.ReadKey();
                     Console.Write(Environment.NewLine + Environment.NewLine);
 
                     StartTurn();
                 }
-            }
-
-            int GetRandomInt(int min, int max)
-            {
-                var rand = new Random();
-                int index = rand.Next(min, max);
-                return index;
-            }
+            }       
         }
     }
 }

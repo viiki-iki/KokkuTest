@@ -113,7 +113,7 @@ namespace AutoBattle
             classSkill.status = false;
             if (CheckCloseTargets(battlefield))
             {
-                Attack();
+                Attack(battlefield);
                 return;
             }
             else
@@ -125,7 +125,7 @@ namespace AutoBattle
                         WalkTO(battlefield, true);
                     else
                     {
-                        SpecialSkill();
+                        SpecialSkill(battlefield);
                         return;
                     }
                 }              
@@ -172,7 +172,7 @@ namespace AutoBattle
             classSkill = new SpecialSkill(classIndex, "", 0, false);
         }
 
-        public void Attack ()
+        public void Attack (Grid battlefield)
         {
             if (Target.classIndex == 3 && Target.classSkill.status == true)
             {
@@ -183,7 +183,7 @@ namespace AutoBattle
             {
                 int chance = types.GetRandomInt(1, 4);
                 if (chance == 1)
-                    SpecialSkill();
+                    SpecialSkill(battlefield);
                 else if (chance == 2)
                     Console.WriteLine($"{Name} lost the chance to attack {Target.Name}! \n");
                 else if (chance >= 3)
@@ -192,10 +192,11 @@ namespace AutoBattle
                     Console.WriteLine($"{Name} is attacking {Target.Name} and did {BaseDamage} damage! \n");
                 }
                 Console.WriteLine($"{Name} health is {Health}      {Target.Name} health is {Target.Health} \n");
-            }          
+                Console.Write(Environment.NewLine + Environment.NewLine);
+            }
         }
 
-        public void SpecialSkill()
+        public void SpecialSkill(Grid battlefield)
         {
             Console.WriteLine($"{Name} is using the special skill {classSkill.name}! \n");
             int damage = BaseDamage + HPModifier();
@@ -205,21 +206,24 @@ namespace AutoBattle
                 Health += HPModifier();
                 Console.WriteLine($"The skill gave {HPModifier()} of protection! \n");
             }
-            else if (classIndex == 2)
+            else if (classIndex == 2 || classIndex == 4)
             {
-                Target.Health -= damage;
-                Console.WriteLine($"The skill did {damage} damage! \n");             
+                if (CheckCloseTargets(battlefield))
+                {
+                    Target.Health -= damage;
+                    Console.WriteLine($"The skill did {damage} damage! \n");
+                }
+                else
+                {
+                    Target.Health -= HPModifier();
+                    Console.WriteLine($"The skill did {HPModifier()} damage! \n");
+                }                             
             }
             else if (classIndex == 3)
             {
                 classSkill.status = true;
                 Console.WriteLine($"{Name} is invisible for 1 turn! \n");               
-            }   
-            else if (classIndex == 4)
-            {
-                Target.Health -= HPModifier();
-                Console.WriteLine($"The skill did {HPModifier()} damage! \n");
-            }                  
+            }                            
         }     
     }
 }

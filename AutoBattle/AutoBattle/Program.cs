@@ -205,11 +205,13 @@ namespace AutoBattle
                 if (PlayerCharacter.Health <= 0)
                 {
                     Console.Write($"The Battle is over! {PlayerCharacter.Name} lost and {EnemyCharacter.Name} won! ");
+                    Console.Write(Environment.NewLine + Environment.NewLine);
                     return;
                 }
-                if (EnemyCharacter.Health <= 0 || PlayerCharacter.Health <= 0)
+                else if (EnemyCharacter.Health <= 0)
                 {
                     Console.Write($"The Battle is over! {PlayerCharacter.Name} won the game! ");
+                    Console.Write(Environment.NewLine + Environment.NewLine);
                     return;
                 }
                 else
